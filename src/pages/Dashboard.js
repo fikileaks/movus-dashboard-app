@@ -1,15 +1,27 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Charts from '../components/Charts';
+import Dropdown from '../components/Dropdown';
 import Header from '../components/Header';
+import { FiSearch } from 'react-icons/fi';
+import History from '../components/History';
 
 const Dashboard = () => {
+  //form data as a year
+  const [year, setYear] = useState(0);
   // data nama dan id 3 digit dari fetch awal
   const [dataMakerId, setDataMakerId] = useState([]);
+  //car name list : hyundai, mini, toyota ets
+  const [carList, setCarList] = useState([]);
   // data id yang udah di reduce
   const [allCarId, setAllCarId] = useState([]);
   const [count, setCount] = useState([]);
   // const [carId, setCarId] = useState([]);
+  //default name
+  const [defaultName, setDefaultName] = useState('Overall Data Count');
+  //History Log
+  const [historyLog, setHistoryLog] = useState([]);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -35,7 +47,7 @@ const Dashboard = () => {
       setLoading(false);
       const result = await axios.get(baseURL);
       setDataMakerId(result.data.Results);
-
+      //setup for setAllCarId
       const semuaCar = result.data.Results.filter(
         (item) =>
           item.Make_Name === BrandName[0] ||
@@ -53,12 +65,33 @@ const Dashboard = () => {
         return final;
       }, []);
       console.table({ semuaCar });
+      //assign setAllCarId
       setAllCarId(semuaCar);
+      //setup for carList
+      const carName = result.data.Results.filter(
+        (item) =>
+          item.Make_Name === BrandName[0] ||
+          item.Make_Name === BrandName[1] ||
+          item.Make_Name === BrandName[2] ||
+          item.Make_Name === BrandName[3] ||
+          item.Make_Name === BrandName[4] ||
+          item.Make_Name === BrandName[5] ||
+          item.Make_Name === BrandName[6] ||
+          item.Make_Name === BrandName[7] ||
+          item.Make_Name === BrandName[8] ||
+          item.Make_Name === BrandName[9]
+      ).reduce((acc, curr) => {
+        let listname = acc.concat(curr.Make_Name);
+        return listname;
+      }, []);
+      //assign for carList
+      setCarList(carName);
     } catch (error) {
       setError(error.message);
       setLoading(false);
     }
     console.log(allCarId, 'allCarId === data id yang udah di reduce');
+    console.log(carList, 'carList === car name list');
   };
 
   /*   const fetchCarCount = async () => {
@@ -111,20 +144,72 @@ const Dashboard = () => {
 
     setCount(countModel);
   };
+
+  const fetchYear = async () => {
+    let countModel = [];
+
+    for (let i = 0; i < allCarId.length; i++) {
+      //inputting all data into axios param
+      const baseURL = `https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeIdYear/makeId/${allCarId[i]}/modelyear/${year}?format=json`;
+      // setLoading(true);
+      try {
+        setLoading(false);
+        const result = await axios.get(baseURL);
+        countModel = countModel.concat(result.data.Count);
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
+    }
+    setCount(countModel);
+    setDefaultName(`Data in Year ${year}`);
+    setHistoryLog(
+      //push year data into historyLog
+      historyLog.concat({
+        year: year,
+      })
+    );
+    console.log(historyLog, 'historyLog');
+  };
   console.log(count, 'WKWKWKWKWK Ini Data Dari fetching pake data ID dan resultnya COUNT DATA MODEL');
 
   console.log(allCarId, 'Merupakan Data nomor idMobil aja : 123,123,123');
 
+  const yearLoop = () => {
+    let arr = [];
+    for (let i = 1995; i < 2030; i++) {
+      arr.push(i);
+    }
+    return arr;
+  };
+
+  //handle change and handle submit
+  const handleChange = (e) => {
+    setYear(e.target.value);
+    console.log(year, 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetchYear();
+    console.log(count, 'DATA ANGKA TAHUN DISINI');
+  };
+
   return (
     <>
       <Header dataMakerId={dataMakerId} loading={loading} error={error} BrandName={BrandName} />
-      <Charts dataMakerId={dataMakerId} />
-      <div className="">
+      <Charts dataMakerId={dataMakerId} count={count} carList={carList} year={year} defaultName={defaultName} />
+      {/* <button className="bg-violet-400" onClick={() => fetchYear()}>
+        Search By Year
+      </button> */}
+      {/* <Dropdown /> */}
+
+      {/* TESTING SECTION */}
+      {/* <div className="">
         {allCarId.map((item, index) => {
           return <p key={index}>{item}</p>;
         })}
       </div>
-      <div className="">
+      <div className="flex">
         {count.length !== 0 && !loading ? (
           count.map((item, index) => {
             return <p key={index}>{item} MASUK</p>;
@@ -132,7 +217,30 @@ const Dashboard = () => {
         ) : (
           <p>Loading...</p>
         )}
-      </div>
+      </div> */}
+      {/* <div>
+        {carList.map((item, index) => {
+          return <p key={index}>CARLIST AJA{item}</p>;
+        })}
+      </div> */}
+      {/* TESTING SECTION */}
+      <Dropdown year={year} handleChange={handleChange} handleSubmit={handleSubmit} yearLoop={yearLoop} />
+
+      {/* <History /> */}
+      {historyLog.length !== 0 && !loading ? (
+        <>
+          <div className="text-center">History Log (click to see history)</div>
+          <div className="flex gap-2 justify-center items-center">
+            {historyLog.slice(0, 10).map((item, index) => {
+              return (
+                <p className="bg-blue-200 px-4 py-2 rounded-full" key={index}>
+                  {item.year} {item.count}
+                </p>
+              );
+            })}
+          </div>
+        </>
+      ) : null}
     </>
   );
 };
