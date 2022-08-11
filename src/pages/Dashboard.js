@@ -8,7 +8,7 @@ import History from '../components/History';
 
 const Dashboard = () => {
   //form data as a year
-  const [year, setYear] = useState(0);
+  const [year, setYear] = useState(1995);
   // data nama dan id 3 digit dari fetch awal
   const [dataMakerId, setDataMakerId] = useState([]);
   //car name list : hyundai, mini, toyota ets
@@ -226,21 +226,7 @@ const Dashboard = () => {
       {/* TESTING SECTION */}
       <Dropdown year={year} handleChange={handleChange} handleSubmit={handleSubmit} yearLoop={yearLoop} />
 
-      {/* <History /> */}
-      {historyLog.length !== 0 && !loading ? (
-        <>
-          <div className="text-center">History Log (click to see history)</div>
-          <div className="flex gap-2 justify-center items-center">
-            {historyLog.slice(0, 10).map((item, index) => {
-              return (
-                <p className="bg-blue-200 px-4 py-2 rounded-full" key={index}>
-                  {item.year} {item.count}
-                </p>
-              );
-            })}
-          </div>
-        </>
-      ) : null}
+      <History historyLog={historyLog} loading={loading} handleSubmit={handleSubmit} />
     </>
   );
 };
