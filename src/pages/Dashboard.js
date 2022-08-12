@@ -64,7 +64,7 @@ const Dashboard = () => {
         let final = acc.concat(curr.Make_ID);
         return final;
       }, []);
-      console.table({ semuaCar });
+      // console.table({ semuaCar });
       //assign setAllCarId
       setAllCarId(semuaCar);
       //setup for carList
@@ -90,8 +90,8 @@ const Dashboard = () => {
       setError(error.message);
       setLoading(false);
     }
-    console.log(allCarId, 'allCarId === data id yang udah di reduce');
-    console.log(carList, 'carList === car name list');
+    // console.log(allCarId, 'allCarId === data id yang udah di reduce');
+    // console.log(carList, 'carList === car name list');
   };
 
   /*   const fetchCarCount = async () => {
@@ -169,11 +169,11 @@ const Dashboard = () => {
         year: year,
       })
     );
-    console.log(historyLog, 'historyLog');
+    // console.log(historyLog, 'historyLog');
   };
-  console.log(count, 'WKWKWKWKWK Ini Data Dari fetching pake data ID dan resultnya COUNT DATA MODEL');
+  // console.log(count, 'WKWKWKWKWK Ini Data Dari fetching pake data ID dan resultnya COUNT DATA MODEL');
 
-  console.log(allCarId, 'Merupakan Data nomor idMobil aja : 123,123,123');
+  // console.log(allCarId, 'Merupakan Data nomor idMobil aja : 123,123,123');
 
   const yearLoop = () => {
     let arr = [];
@@ -186,18 +186,19 @@ const Dashboard = () => {
   //handle change and handle submit
   const handleChange = (e) => {
     setYear(e.target.value);
-    console.log(year, 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+    // console.log(year, 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     fetchYear();
-    console.log(count, 'DATA ANGKA TAHUN DISINI');
+    // console.log(count, 'DATA ANGKA TAHUN DISINI');
   };
 
   return (
-    <>
-      <Header dataMakerId={dataMakerId} loading={loading} error={error} BrandName={BrandName} />
-      <Charts dataMakerId={dataMakerId} count={count} carList={carList} year={year} defaultName={defaultName} />
+    <div className="py-1 sm:py-3 md:py-10">
+      <h1>Testing</h1>
+      <Header data-testid="HeaderComponent" dataMakerId={dataMakerId} loading={loading} error={error} BrandName={BrandName} />
+      <Charts data-testid="ChartsComponent" dataMakerId={dataMakerId} count={count} carList={carList} year={year} defaultName={defaultName} />
       {/* <button className="bg-violet-400" onClick={() => fetchYear()}>
         Search By Year
       </button> */}
@@ -224,10 +225,10 @@ const Dashboard = () => {
         })}
       </div> */}
       {/* TESTING SECTION */}
-      <Dropdown year={year} handleChange={handleChange} handleSubmit={handleSubmit} yearLoop={yearLoop} />
+      <Dropdown data-testid="DropdownComponent" year={year} handleChange={handleChange} handleSubmit={handleSubmit} yearLoop={yearLoop} />
 
-      <History historyLog={historyLog} loading={loading} handleSubmit={handleSubmit} />
-    </>
+      <History data-testid="HistoryComponent" historyLog={historyLog} loading={loading} handleSubmit={handleSubmit} />
+    </div>
   );
 };
 
