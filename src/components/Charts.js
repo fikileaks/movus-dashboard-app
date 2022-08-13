@@ -6,7 +6,7 @@ Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 Chart.defaults.font.family = 'Poppins, sans-serif';
 Chart.defaults.font.weight = 'bold';
 
-const Charts = ({ count, carList, year, defaultName }) => {
+const Charts = ({ count, carList, defaultName }) => {
   const dataBar = {
     labels: ['Model Count'],
     datasets: [
@@ -94,7 +94,7 @@ const Charts = ({ count, carList, year, defaultName }) => {
 
   return (
     <>
-      <div className="w-[80%] sm:w-[400px] md:w-[600px] lg:w-[800px] mx-auto ">
+      <div data-testid="div-Charts-main" className="w-[80%] sm:w-[400px] md:w-[600px] lg:w-[800px] mx-auto ">
         <Bar data={dataBar} options={dataBarOptions} />
       </div>
       <div className="p-2 sm:p-4 text-center text-xs sm:text-sm md:text-base font-medium text-slate-700">{defaultName}</div>

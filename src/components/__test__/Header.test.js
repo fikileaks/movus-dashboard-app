@@ -21,13 +21,12 @@ describe('Rendering Header Component', () => {
   });
   it('Rendering car name before api call expected empty', () => {
     const { queryByTestId } = render(<Header />);
-    const carNameElement = queryByTestId('div-Header-async-name');
+    const carNameElement = queryByTestId(/div-Header-async-name/i);
     expect(carNameElement).not.toBeInTheDocument();
   });
   it('Rendering car name without api call expected 0', async () => {
     const { findByTestId } = await render(<MockHeader />);
-    const carNameMockElement = findByTestId('div-Header-async-name');
-    //expected an emty object
+    const carNameMockElement = findByTestId(/div-Header-async-name/i);
     expect(carNameMockElement).toBeTruthy();
   });
 });

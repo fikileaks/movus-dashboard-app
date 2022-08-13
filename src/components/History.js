@@ -1,6 +1,6 @@
 const History = ({ historyLog, loading, handleSubmit }) => {
   return (
-    <>
+    <div data-testid="div-History">
       {historyLog.length !== 0 && !loading ? (
         <>
           <div className="p-2 sm:p-4 text-center text-xs sm:text-sm md:text-base font-medium text-slate-700">History Log (click to see history)</div>
@@ -15,7 +15,7 @@ const History = ({ historyLog, loading, handleSubmit }) => {
           </div>
         </>
       ) : null}
-    </>
+    </div>
   );
 };
 

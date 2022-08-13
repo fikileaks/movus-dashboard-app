@@ -110,14 +110,6 @@ const Dashboard = () => {
     );
   };
 
-  const yearLoop = () => {
-    let arr = [];
-    for (let i = 1995; i < 2030; i++) {
-      arr.push(i);
-    }
-    return arr;
-  };
-
   const handleChange = (e) => {
     setYear(e.target.value);
   };
@@ -127,10 +119,10 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="py-1 sm:py-3 md:py-10">
+    <div data-testid="div-Dashboard" className="py-1 sm:py-3 md:py-10">
       <Header data-testid="HeaderComponent" dataMakerId={dataMakerId} loading={loading} error={error} BrandName={BrandName} />
       <Charts data-testid="ChartsComponent" dataMakerId={dataMakerId} count={count} carList={carList} year={year} defaultName={defaultName} />
-      <Dropdown data-testid="DropdownComponent" year={year} handleChange={handleChange} handleSubmit={handleSubmit} yearLoop={yearLoop} />
+      <Dropdown data-testid="DropdownComponent" year={year} handleChange={handleChange} handleSubmit={handleSubmit} />
       <History data-testid="HistoryComponent" historyLog={historyLog} loading={loading} handleSubmit={handleSubmit} />
     </div>
   );
