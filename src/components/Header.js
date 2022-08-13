@@ -1,4 +1,4 @@
-const Header = ({ loading, error, dataMakerId, BrandName }) => {
+const Header = ({ loading = false, error = false, dataMakerId = [], BrandName = [] }) => {
   const color = ['bg-red-300', 'bg-orange-300', 'bg-yellow-300', 'bg-green-300', 'bg-blue-300', 'bg-indigo-300', 'bg-purple-300', 'bg-pink-300', 'bg-teal-300', 'bg-gray-300'];
   return (
     <div className="py-4">
@@ -10,7 +10,7 @@ const Header = ({ loading, error, dataMakerId, BrandName }) => {
             for (let i = 0; i < BrandName.length; i++) {
               if (Make_Name === BrandName[i]) {
                 return (
-                  <div className={`px-2 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm md:text-base font-medium text-slate-900 ${color[i]}`} key={Make_ID}>
+                  <div data-testid="div-Header-async-name" className={`px-2 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm md:text-base font-medium text-slate-900 ${color[i]}`} key={Make_ID}>
                     {Make_Name}
                   </div>
                 );
